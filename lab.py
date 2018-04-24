@@ -3,12 +3,14 @@ from OpenGL.GLUT import *
 import sys
 from trackball import Trackball
 from palm import Palm
+from utils import NEAR, D_EYE, apply_left_frustum, apply_right_frustum
 
 
 def on_draw():
     """Handle on draw event"""
     global translate
     global palm
+    global aspect_ratio
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
@@ -16,7 +18,23 @@ def on_draw():
     if is_wheel_down:
         glTranslate(translate[0], -1 * translate[1], 0)
     draw_axis()
+
+    glColor3f(0.8, 0.2, 0.8)
+
+    glColorMask(True, False, False, False)
+    apply_left_frustum(aspect_ratio)
+
     palm.draw()
+
+    glClear(GL_DEPTH_BUFFER_BIT)
+
+    apply_right_frustum(aspect_ratio)
+    glColorMask(False, True, True, False)
+
+    palm.draw()
+
+    glColorMask(True, True, True, False)
+
     trackball.pop()
 
     glutSwapBuffers()
@@ -142,8 +160,6 @@ def on_special(code, x, y):
         palm.unbend_finger(3, step)
     if code == GLUT_KEY_F9:
         palm.bend_finger(4, step)
-    if code == 103:
-        palm.unbend_finger(4, step)
 
     glutPostRedisplay()
 

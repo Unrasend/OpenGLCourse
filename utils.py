@@ -6,10 +6,13 @@ import numpy as np
 import math
 
 
+# CONSTS
 NEAR = 10
 FAR = 20000
-D_EYE = 70
+D_EYE = 35
 CONVERGENCE = 2000
+FOV = 45
+
 
 def draw_parallelepiped(point: Point, width: float, height: float, length: float):
         """Draw parallelepiped from the point in the center of the bottom surface"""
@@ -43,7 +46,8 @@ def draw_parallelepiped(point: Point, width: float, height: float, length: float
 
 def draw_line(p1: Point, p2: Point):
     """Draw line"""
-    glColor3f(0.3, 0.5, 0.7)
+    # glColor3f(0.2, 0.2, 0.8)
+    glLineWidth(5)
     glBegin(GL_LINES)
     glVertex3f(p1.x * 0.2, p1.y * 0.2, p1.z * 0.2)
     glVertex3f(p2.x * 0.2, p2.y * 0.2, p2.z * 0.2)
@@ -67,5 +71,37 @@ def normalize_vector(vector):
     return vector / np.linalg.norm(vector)
 
 
-# def apply_left_frustum(top: float, bottom: float, left: float, right: float, aspect_rat: float):
-#     bottom = NEAR * math.tan()
+def calc_frustum_vars(aspect_rat: float):
+    top = NEAR * math.tan(FOV / 2)
+    bottom = - top
+    a = aspect_rat * math.tan(FOV / 2) * CONVERGENCE
+    b = a - D_EYE / 2
+    c = a + D_EYE / 2
+
+    return top, bottom, a, b, c
+
+
+def apply_left_frustum(aspect_rat: float):
+    top, bottom, a, b, c = calc_frustum_vars(aspect_rat)
+    left = -b * NEAR / CONVERGENCE
+    right = c * NEAR / CONVERGENCE
+
+    # glMatrixMode(GL_PROJECTION)
+    # glLoadIdentity()
+    glFrustum(left, right, bottom, top, NEAR, FAR)
+    # glMatrixMode(GL_MODELVIEW)
+    # glLoadIdentity()
+    glTranslatef(D_EYE / 2, 0, 0)
+
+
+def apply_right_frustum(aspect_rat: float):
+    top, bottom, a, b, c = calc_frustum_vars(aspect_rat)
+    left = -c * NEAR / CONVERGENCE
+    right = b * NEAR / CONVERGENCE
+
+    # glMatrixMode(GL_PROJECTION)
+    # glLoadIdentity()
+    glFrustum(left, right, bottom, top, NEAR, FAR)
+    # glMatrixMode(GL_MODELVIEW)
+    # glLoadIdentity()
+    glTranslatef(-D_EYE / 2, 0, 0)

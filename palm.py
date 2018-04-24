@@ -88,7 +88,7 @@ class Finger:
 
 class Palm:
     def __init__(self):
-        self.color = (0.5, 0.5, 0.5)
+        self.color = (0, 0, 1)
         self.palm_base_point = Point(-2, 2, 0)
         # L Width Height
         self.palm_size = (14, 2, 14)
