@@ -24,6 +24,9 @@ def on_draw():
     glColorMask(True, False, False, False)
     apply_left_frustum(aspect_ratio)
 
+    glTranslatef(0, -6, -17)
+    glRotate(-40, -8, 30, 30)
+    glScale(2, 2, 2)
     palm.draw()
 
     glClear(GL_DEPTH_BUFFER_BIT)
@@ -31,6 +34,9 @@ def on_draw():
     apply_right_frustum(aspect_ratio)
     glColorMask(False, True, True, False)
 
+    glTranslatef(0, -6, -17)
+    glRotate(-40, -8, 30, 30)
+    glScale(2, 2, 2)
     palm.draw()
 
     glColorMask(True, True, True, False)

@@ -7,11 +7,11 @@ import math
 
 
 # CONSTS
-NEAR = 10
-FAR = 20000
-D_EYE = 35
+NEAR = 0.1
+FAR = 1000
+D_EYE = 0.3
 CONVERGENCE = 2000
-FOV = 45
+FOV = 70
 
 
 def draw_parallelepiped(point: Point, width: float, height: float, length: float):
@@ -47,7 +47,7 @@ def draw_parallelepiped(point: Point, width: float, height: float, length: float
 def draw_line(p1: Point, p2: Point):
     """Draw line"""
     # glColor3f(0.2, 0.2, 0.8)
-    glLineWidth(5)
+    glLineWidth(2)
     glBegin(GL_LINES)
     glVertex3f(p1.x * 0.2, p1.y * 0.2, p1.z * 0.2)
     glVertex3f(p2.x * 0.2, p2.y * 0.2, p2.z * 0.2)
@@ -86,11 +86,11 @@ def apply_left_frustum(aspect_rat: float):
     left = -b * NEAR / CONVERGENCE
     right = c * NEAR / CONVERGENCE
 
-    # glMatrixMode(GL_PROJECTION)
-    # glLoadIdentity()
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity()
     glFrustum(left, right, bottom, top, NEAR, FAR)
-    # glMatrixMode(GL_MODELVIEW)
-    # glLoadIdentity()
+    glMatrixMode(GL_MODELVIEW)
+    glLoadIdentity()
     glTranslatef(D_EYE / 2, 0, 0)
 
 
@@ -99,9 +99,9 @@ def apply_right_frustum(aspect_rat: float):
     left = -c * NEAR / CONVERGENCE
     right = b * NEAR / CONVERGENCE
 
-    # glMatrixMode(GL_PROJECTION)
-    # glLoadIdentity()
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity()
     glFrustum(left, right, bottom, top, NEAR, FAR)
-    # glMatrixMode(GL_MODELVIEW)
-    # glLoadIdentity()
+    glMatrixMode(GL_MODELVIEW)
+    glLoadIdentity()
     glTranslatef(-D_EYE / 2, 0, 0)
