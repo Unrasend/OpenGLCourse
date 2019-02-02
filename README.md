@@ -1,1 +1,1 @@
-# computer_graphics_lab
+# OpenGL tasks implented in Python
