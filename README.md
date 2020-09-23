@@ -14,7 +14,7 @@
 
 ### Palm
 
-- Palm fingers is controllable via keys F1-F10
-- Also palm is stereoscopic
+- Palm fingers can be controlled via keys F1-F10
+- Palm is stereoscopic
 
 ![](./screenshots/Palm/screen2.png) 
